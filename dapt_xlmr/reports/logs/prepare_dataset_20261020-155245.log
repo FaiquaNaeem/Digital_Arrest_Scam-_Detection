@@ -1,0 +1,7 @@
+2026-10-20 15:52:45 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/prepare_dataset_20261020-155245.log
+2026-10-20 15:52:45 | INFO    | dapt.prepare | Loaded 4283 processed documents from /home/faiqua/digital_arrest_project/dapt_xlmr/data/processed/documents.jsonl
+2026-10-20 15:52:45 | INFO    | dapt.prepare | hinglish: 1359 group(s) of source types ['synthetic'] kept in train only
+2026-10-20 15:52:45 | WARNING | dapt.prepare | hinglish: only 0 group(s): no validation group could be held out
+2026-10-20 15:52:45 | WARNING | dapt.prepare | hinglish: only 0 group(s): no test group could be held out
+2026-10-20 15:52:45 | WARNING | dapt.prepare | hinglish: no validation documents - it cannot be used for model selection.
+2026-10-20 15:52:45 | INFO    | dapt.prepare | Splits written to /home/faiqua/digital_arrest_project/dapt_xlmr/data/prepared (fingerprint d5799bbf7f814cae): {'train': 3699, 'validation': 292, 'test': 292}

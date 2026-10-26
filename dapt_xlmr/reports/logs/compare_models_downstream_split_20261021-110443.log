@@ -1,0 +1,7 @@
+2026-10-21 11:04:43 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/compare_models_downstream_split_20261021-110443.log
+2026-10-21 11:04:44 | INFO    | dapt.compare | Downstream split written to /home/faiqua/digital_arrest_project/dapt_xlmr/data/downstream: {'train': 815, 'validation': 204, 'test': 340}
+2026-10-21 11:04:44 | INFO    | dapt.compare | To keep test conversations out of DAPT, add to config.yaml:
+  exclusions:
+    conversation_id_files: [/home/faiqua/digital_arrest_project/dapt_xlmr/data/downstream/test_conversation_ids.txt]
+    text_files: [/home/faiqua/digital_arrest_project/dapt_xlmr/data/downstream/test.jsonl]
+then re-run prepare_dataset.py and train_dapt.py.

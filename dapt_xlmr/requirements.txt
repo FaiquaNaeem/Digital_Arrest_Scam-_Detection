@@ -1,0 +1,22 @@
+# Domain-adaptive pretraining of XLM-RoBERTa - dependencies
+#
+# The code targets the transformers 4.46-4.x API (eval_strategy, processing_class, ...).
+# transformers 5.x is excluded until you have run `python self_check.py` against it.
+#
+# torch: on Google Colab keep the preinstalled CUDA build (do NOT reinstall it).
+# Elsewhere install the build matching your CUDA from https://pytorch.org first.
+torch>=2.1
+transformers>=4.46,<5.0
+datasets>=2.19,<5.0
+accelerate>=0.34
+tokenizers>=0.20
+sentencepiece>=0.2.0      # XLM-R SentencePiece model (slow-tokenizer fallback)
+protobuf>=3.20
+numpy>=1.24
+pyyaml>=6.0
+scikit-learn>=1.3         # downstream metrics
+packaging>=23.0
+
+# Optional
+# tensorboard>=2.15       # training.report_to: tensorboard
+# pytest>=7               # python -m pytest tests/

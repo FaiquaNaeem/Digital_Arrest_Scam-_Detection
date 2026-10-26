@@ -1,0 +1,202 @@
+{
+  "created": "2026-10-20T10:30:13+00:00",
+  "sources": [
+    {
+      "name": "korean_scam",
+      "category": "korean_scam",
+      "required": true,
+      "files_found": 1,
+      "missing_paths": [],
+      "formats": {
+        "csv": 1
+      },
+      "records": 14757,
+      "record_errors": {},
+      "file_errors": [],
+      "fields": {
+        "conversation_id": 14757,
+        "label": 14757,
+        "turn_id": 14757,
+        "speaker": 14757,
+        "text": 14757,
+        "text_en": 14757
+      },
+      "text_issues": {},
+      "with_conversation_id": 14757,
+      "languages": {
+        "ko": 14757
+      },
+      "source_types": {
+        "real": 14757
+      },
+      "label_fields": {
+        "label": 14757
+      },
+      "label_values": {
+        "label": {
+          "1": 14757
+        }
+      },
+      "scripts": {
+        "hangul": 652162,
+        "latin": 2285,
+        "digit": 10039
+      },
+      "duplicate_texts": 69,
+      "n_conversation_ids": 692,
+      "conversation_id_field": "conversation_id",
+      "chars_percentiles": {
+        "p0": 1,
+        "p50": 52,
+        "p90": 118.0,
+        "p99": 209.0,
+        "p100": 449
+      },
+      "script_shares": {
+        "hangul": 0.997,
+        "latin": 0.003
+      },
+      "speaker_candidates_top": {
+        "[speaker field] unknown": 14757
+      }
+    },
+    {
+      "name": "korean_normal",
+      "category": "korean_normal",
+      "required": true,
+      "files_found": 1,
+      "missing_paths": [],
+      "formats": {
+        "csv": 1
+      },
+      "records": 96238,
+      "record_errors": {},
+      "file_errors": [],
+      "fields": {
+        "conversation_id": 96238,
+        "label": 96238,
+        "turn_id": 96238,
+        "speaker": 96238,
+        "text": 96238,
+        "text_en": 96238
+      },
+      "text_issues": {},
+      "with_conversation_id": 96238,
+      "languages": {
+        "ko": 96238
+      },
+      "source_types": {
+        "real": 96238
+      },
+      "label_fields": {
+        "label": 96238
+      },
+      "label_values": {
+        "label": {
+          "0": 96238
+        }
+      },
+      "scripts": {
+        "hangul": 7817021,
+        "latin": 1484,
+        "digit": 35222
+      },
+      "duplicate_texts": 44,
+      "n_conversation_ids": 2232,
+      "conversation_id_field": "conversation_id",
+      "chars_percentiles": {
+        "p0": 1,
+        "p50": 99.0,
+        "p90": 207.0,
+        "p99": 368.0,
+        "p100": 1167
+      },
+      "script_shares": {
+        "hangul": 1.0,
+        "latin": 0.0
+      },
+      "speaker_candidates_top": {
+        "[speaker field] unknown": 96238
+      }
+    },
+    {
+      "name": "hinglish_synthetic",
+      "category": "hinglish",
+      "required": true,
+      "files_found": 1,
+      "missing_paths": [],
+      "formats": {
+        "jsonl": 1
+      },
+      "records": 1359,
+      "record_errors": {},
+      "file_errors": [],
+      "fields": {
+        "conversation_id": 1359,
+        "pair_id": 1359,
+        "class": 1359,
+        "is_vishing": 1359,
+        "impersonated_org": 1359,
+        "pretext": 1359,
+        "victim_persona": 1359,
+        "turns": 1359
+      },
+      "text_issues": {},
+      "with_conversation_id": 1359,
+      "languages": {
+        "hi-en": 1359
+      },
+      "source_types": {
+        "synthetic": 1359
+      },
+      "label_fields": {
+        "class": 1359
+      },
+      "label_values": {
+        "class": {
+          "benign": 512,
+          "other_scam": 497,
+          "digital_arrest_scam": 175,
+          "legitimate_authority_hard_negative": 175
+        }
+      },
+      "scripts": {
+        "latin": 1553274,
+        "digit": 30171
+      },
+      "duplicate_texts": 0,
+      "n_conversation_ids": 1359,
+      "conversation_id_field": "conversation_id",
+      "chars_percentiles": {
+        "p0": 292,
+        "p50": 1492,
+        "p90": 2116.6,
+        "p99": 2676.2,
+        "p100": 3342
+      },
+      "script_shares": {
+        "latin": 1.0
+      },
+      "speaker_candidates_top": {
+        "[speaker field] caller": 6711,
+        "[speaker field] victim": 6111,
+        "Anita": 3,
+        "Aarav": 3,
+        "Reference number": 3,
+        "Address": 1,
+        "Address hai": 1,
+        "Shukriya! Pehla sawaal": 1,
+        "Samajh gaya. Agla": 1,
+        "Notice mein likha tha": 1,
+        "(Voice from background": 1,
+        "Ref. Number": 1
+      }
+    }
+  ],
+  "warnings": [
+    "korean_scam: label fields {'label': 14757} present - they will be excluded from DAPT text and metadata.",
+    "korean_normal: label fields {'label': 96238} present - they will be excluded from DAPT text and metadata.",
+    "hinglish_synthetic: label fields {'class': 1359} present - they will be excluded from DAPT text and metadata.",
+    "hinglish_synthetic: speaker labels that reveal the class: ['[speaker field] victim']. Use preprocessing.speaker_labels.mode=neutralize (and apply_to_free_text for plain-text transcripts)."
+  ]
+}

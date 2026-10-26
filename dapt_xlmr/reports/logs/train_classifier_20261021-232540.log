@@ -1,0 +1,5 @@
+2026-10-21 23:25:40 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/train_classifier_20261021-232540.log
+2026-10-21 23:25:41 | INFO    | dapt.mlm | torch 2.11.0+cu128 | transformers 5.17.0 | datasets 4.8.5 | CUDA 12.8 | GPU NVIDIA GeForce RTX 5060 Laptop GPU
+2026-10-21 23:25:45 | INFO    | dapt.classifier | conversations: train=815 validation=204 test=340
+2026-10-21 23:25:45 | INFO    | dapt.classifier | example tensor shapes: input_ids=(8, 128) attention_mask=(8, 128) tactic_targets=(8, 6) n_turns=8
+2026-10-21 23:25:45 | INFO    | dapt.classifier | ~51 optimizer steps/epoch x 10 epochs, 3 seed(s)

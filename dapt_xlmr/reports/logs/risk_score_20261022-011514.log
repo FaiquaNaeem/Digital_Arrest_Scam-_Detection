@@ -1,0 +1,5 @@
+2026-10-22 01:15:14 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/risk_score_20261022-011514.log
+2026-10-22 01:15:15 | INFO    | dapt.mlm | torch 2.11.0+cu128 | transformers 5.17.0 | datasets 4.8.5 | CUDA 12.8 | GPU NVIDIA GeForce RTX 5060 Laptop GPU
+2026-10-22 01:15:19 | INFO    | dapt.risk_score | scoring 340 held-out test conversations
+2026-10-22 01:15:24 | INFO    | dapt.risk_score | Predictions: /home/faiqua/digital_arrest_project/dapt_xlmr/outputs/risk_scoring/test_risk_scores.csv
+2026-10-22 01:15:24 | INFO    | dapt.risk_score | Report: /home/faiqua/digital_arrest_project/dapt_xlmr/reports/risk_score/risk_score_report.md

@@ -1,0 +1,9 @@
+2026-10-20 16:00:16 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/preprocess_20261020-160016.log
+2026-10-20 16:00:22 | WARNING | dapt.preprocess | korean_scam: label fields ['label'] were present and excluded from DAPT data.
+2026-10-20 16:00:22 | WARNING | dapt.preprocess | korean_normal: label fields ['label'] were present and excluded from DAPT data.
+2026-10-20 16:00:22 | WARNING | dapt.preprocess | hinglish: label fields ['class'] were present and excluded from DAPT data.
+2026-10-20 16:00:22 | INFO    | dapt.preprocess | Wrote 4283 documents to /home/faiqua/digital_arrest_project/dapt_xlmr/data/processed/documents.jsonl
+2026-10-20 16:00:22 | INFO    | dapt.preprocess | Reports in /home/faiqua/digital_arrest_project/dapt_xlmr/reports
+2026-10-20 16:00:22 | INFO    | dapt.preprocess | korean_scam      documents=692     chars=992094
+2026-10-20 16:00:22 | INFO    | dapt.preprocess | korean_normal    documents=2232    chars=11539692
+2026-10-20 16:00:22 | INFO    | dapt.preprocess | hinglish         documents=1359    chars=2085587

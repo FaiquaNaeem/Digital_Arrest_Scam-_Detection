@@ -1,0 +1,234 @@
+{
+  "statistics": {
+    "train": {
+      "hinglish": {
+        "documents": 815,
+        "groups": 815,
+        "chars": 1239147,
+        "source_types": {
+          "synthetic": 815
+        },
+        "languages": {
+          "hi-en": 815
+        },
+        "doc_chars_percentiles": {
+          "p0": 316,
+          "p50": 1508,
+          "p90": 2154.2,
+          "p99": 2724.88,
+          "p100": 3100
+        }
+      },
+      "korean_normal": {
+        "documents": 1786,
+        "groups": 1786,
+        "chars": 9216427,
+        "source_types": {
+          "real": 1786
+        },
+        "languages": {
+          "ko": 1786
+        },
+        "doc_chars_percentiles": {
+          "p0": 1788,
+          "p50": 5281.5,
+          "p90": 6456.5,
+          "p99": 7250.3,
+          "p100": 8320
+        }
+      },
+      "korean_scam": {
+        "documents": 554,
+        "groups": 554,
+        "chars": 822925,
+        "source_types": {
+          "real": 554
+        },
+        "languages": {
+          "ko": 554
+        },
+        "doc_chars_percentiles": {
+          "p0": 25,
+          "p50": 571.0,
+          "p90": 3375.1,
+          "p99": 14864.6,
+          "p100": 28225
+        }
+      }
+    },
+    "validation": {
+      "hinglish": {
+        "documents": 102,
+        "groups": 102,
+        "chars": 152756,
+        "source_types": {
+          "synthetic": 102
+        },
+        "languages": {
+          "hi-en": 102
+        },
+        "doc_chars_percentiles": {
+          "p0": 345,
+          "p50": 1501.5,
+          "p90": 2153.2,
+          "p99": 2690.34,
+          "p100": 3382
+        }
+      },
+      "korean_normal": {
+        "documents": 223,
+        "groups": 223,
+        "chars": 1145560,
+        "source_types": {
+          "real": 223
+        },
+        "languages": {
+          "ko": 223
+        },
+        "doc_chars_percentiles": {
+          "p0": 2108,
+          "p50": 5341,
+          "p90": 6538.2,
+          "p99": 7151.68,
+          "p100": 7240
+        }
+      },
+      "korean_scam": {
+        "documents": 69,
+        "groups": 69,
+        "chars": 81022,
+        "source_types": {
+          "real": 69
+        },
+        "languages": {
+          "ko": 69
+        },
+        "doc_chars_percentiles": {
+          "p0": 38,
+          "p50": 483,
+          "p90": 2033.2,
+          "p99": 10144.96,
+          "p100": 16845
+        }
+      }
+    },
+    "test": {
+      "hinglish": {
+        "documents": 102,
+        "groups": 102,
+        "chars": 149502,
+        "source_types": {
+          "synthetic": 102
+        },
+        "languages": {
+          "hi-en": 102
+        },
+        "doc_chars_percentiles": {
+          "p0": 348,
+          "p50": 1442.5,
+          "p90": 2044.1,
+          "p99": 2454.9,
+          "p100": 2888
+        }
+      },
+      "korean_normal": {
+        "documents": 223,
+        "groups": 223,
+        "chars": 1177705,
+        "source_types": {
+          "real": 223
+        },
+        "languages": {
+          "ko": 223
+        },
+        "doc_chars_percentiles": {
+          "p0": 2090,
+          "p50": 5531,
+          "p90": 6494.6,
+          "p99": 7273.1,
+          "p100": 7489
+        }
+      },
+      "korean_scam": {
+        "documents": 69,
+        "groups": 69,
+        "chars": 88147,
+        "source_types": {
+          "real": 69
+        },
+        "languages": {
+          "ko": 69
+        },
+        "doc_chars_percentiles": {
+          "p0": 34,
+          "p50": 520,
+          "p90": 2622.6,
+          "p99": 12769.4,
+          "p100": 16098
+        }
+      }
+    }
+  },
+  "manifest": {
+    "created": "2026-10-21T05:36:08+00:00",
+    "fingerprint": "c6f383ea8c3c251f",
+    "counts": {
+      "train": 3155,
+      "validation": 394,
+      "test": 394
+    },
+    "categories": [
+      "hinglish",
+      "korean_normal",
+      "korean_scam"
+    ],
+    "split_config": {
+      "validation_ratio": 0.1,
+      "test_ratio": 0.1,
+      "group_by": "conversation_id",
+      "group_namespace": "source",
+      "min_eval_groups_per_category": 1,
+      "train_only_source_types": []
+    },
+    "seed": 42,
+    "exclusions": {
+      "excluded_documents": {
+        "hinglish": 340
+      },
+      "conversation_id_files": [
+        {
+          "file": "data/downstream/test_conversation_ids.txt",
+          "ids": 340
+        }
+      ],
+      "text_files": [
+        {
+          "files": [
+            "data/downstream/test.jsonl"
+          ],
+          "texts": 340
+        }
+      ]
+    },
+    "group_notes": {},
+    "leakage_checks": {
+      "group_id:train&validation": 0,
+      "group_id:train&test": 0,
+      "group_id:validation&test": 0,
+      "text_sha1:train&validation": 0,
+      "text_sha1:train&test": 0,
+      "text_sha1:validation&test": 0,
+      "conversation_id:train&validation": 0,
+      "conversation_id:train&test": 0,
+      "conversation_id:validation&test": 0,
+      "passed": true
+    },
+    "warnings": [],
+    "versions": {
+      "python": "3.12.5",
+      "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+      "pyyaml": "6.0.3",
+      "numpy": "2.5.3"
+    }
+  }
+}

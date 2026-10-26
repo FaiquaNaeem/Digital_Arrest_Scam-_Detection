@@ -1,0 +1,45 @@
+{
+  "enabled": true,
+  "detectors": [
+    "email",
+    "upi_id",
+    "kr_rrn",
+    "card",
+    "phone_kr",
+    "phone_in",
+    "aadhaar",
+    "pan"
+  ],
+  "replacements_by_category": {
+    "korean_scam": {
+      "phone_kr": 16,
+      "card": 1,
+      "aadhaar": 2
+    },
+    "korean_normal": {},
+    "hinglish": {
+      "upi_id": 532,
+      "aadhaar": 70,
+      "phone_in": 40,
+      "email": 4,
+      "phone_kr": 2,
+      "pan": 2
+    }
+  },
+  "documents_affected_by_category": {
+    "korean_scam": {
+      "phone_kr": 13,
+      "card": 1,
+      "aadhaar": 2
+    },
+    "hinglish": {
+      "upi_id": 444,
+      "aadhaar": 67,
+      "phone_in": 33,
+      "email": 4,
+      "phone_kr": 2,
+      "pan": 2
+    }
+  },
+  "note": "Counts only; redacted values are never written anywhere. Regex redaction does not detect names, addresses or spoken-out numbers."
+}

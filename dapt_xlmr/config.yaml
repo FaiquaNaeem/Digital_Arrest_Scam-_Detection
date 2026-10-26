@@ -1,0 +1,377 @@
+# =============================================================================
+# Domain-Adaptive Pretraining (DAPT) of XLM-RoBERTa for digital-arrest scam detection
+# Every script reads this file. Relative paths are resolved against THIS file's folder.
+# Override any value from the command line:  --set training.learning_rate=3.0e-5
+# NOTE: write floats with a dot before the exponent (5.0e-5, not 5e-5) - plain YAML reads
+#       "5e-5" as text. The loader converts that case for you, but the dotted form is safer.
+# =============================================================================
+
+project:
+  seed: 42
+  experiment: mixed            # which entry of `experiments` train_dapt.py uses by default
+
+paths:
+  processed_dir: data/processed     # cleaned documents (preprocess.py)
+  prepared_dir: data/prepared       # train/validation/test splits (prepare_dataset.py)
+  tokenized_cache_dir: data/tokenized
+  reports_dir: reports
+  output_root: outputs              # runs/<run_name>/checkpoints live under here
+
+model:
+  name_or_path: FacebookAI/xlm-roberta-base
+  tokenizer_name_or_path: null      # null = same as the model; never swap the tokenizer
+  revision: main                    # pin a commit hash here for strict reproducibility
+
+# -----------------------------------------------------------------------------
+# Data sources. One entry per folder/file set. `category` is what sampling and
+# reporting work on; it is NEVER inserted into the text the model sees.
+# -----------------------------------------------------------------------------
+sources:
+  - name: korean_scam
+    category: korean_scam
+    paths: [data/raw/korean/scam]   # files, folders (searched recursively) or globs
+    formats: [jsonl, json, csv, tsv, txt]
+    required: true
+    language: ko                    # used when a record has no `language` field
+    source_type: real               # used when a record has no `source_type` field
+    text_field: text                # for CSV: the transcript column name
+    conversation_id_field: conversation_id
+    language_field: language
+    source_type_field: source_type
+    encoding: utf-8-sig             # Korean CSVs exported from Excel are often cp949
+    txt_mode: file                  # file = one conversation per .txt | line | blank_line
+    # korccvi_pseudo_turns.csv is one row per TURN, not per conversation:
+    turn_order_field: turn_id
+    speaker_field: speaker
+    assemble_by_conversation: true
+
+  - name: korean_normal
+    category: korean_normal
+    paths: [data/raw/korean/normal]
+    required: true
+    language: ko
+    source_type: real
+    text_field: text
+    conversation_id_field: conversation_id
+    encoding: utf-8-sig
+    txt_mode: file
+    turn_order_field: turn_id
+    speaker_field: speaker
+    assemble_by_conversation: true
+
+  # No real (non-synthetic) Hinglish source: by decision (see PROJECT_LOG.md,
+  # 2026-10-20), only the synthetic Hinglish corpus and the real Korean corpus are used,
+  # for training AND evaluation, until further notice.
+  - name: hinglish_synthetic
+    category: hinglish
+    paths: [data/raw/hinglish/synthetic]
+    required: true                  # this is now the only Hinglish source there is
+    language: hi-en
+    source_type: synthetic
+    text_field: text
+    conversation_id_field: conversation_id
+    turns_field: turns
+    turn_text_field: text
+    turn_speaker_field: speaker
+    txt_mode: file
+
+# Any of these fields found in a record is removed before DAPT (counted in the report).
+label_fields: [label, labels, is_scam, scam, scam_label, class, target, y, behaviour_tags,
+               generator_intent_tags, stage, stage_label, tactic, tactics]
+
+# -----------------------------------------------------------------------------
+preprocessing:
+  unicode_form: NFC               # NFC keeps Hangul syllables and compatibility jamo (ㅋㅋ) intact.
+                                  # NFKC would rewrite jamo and full-width forms - avoid for Korean.
+  normalize_digits_to_ascii: true # ९८७ / ９８７ -> 987 (so identifier patterns work)
+  remove_zero_width: true         # ZWSP/BOM/soft hyphen; ZWJ/ZWNJ are kept (Devanagari, emoji)
+  strip_control_chars: true
+  max_consecutive_newlines: 2
+  min_chars: 1                    # only truly empty documents are removed by default
+  fail_on_file_errors: true       # stop if a file cannot be decoded/parsed (listed in the error)
+
+  # Transcription markup removed verbatim. Speech content is never touched.
+  artifact_patterns:
+    - name: srt_vtt_timing
+      pattern: '^\s*\d{1,2}:\d{2}:\d{2}[.,]\d{1,3}\s*-->\s*\d{1,2}:\d{2}:\d{2}[.,]\d{1,3}.*$'
+    - name: webvtt_header
+      pattern: '^\s*WEBVTT.*$'
+    - name: bracketed_timestamp
+      pattern: '[\[(]\s*\d{1,2}:\d{2}(?::\d{2})?(?:[.,]\d{1,3})?\s*[\])]'
+    - name: noise_tags
+      pattern: '[\[(<]\s*(?:inaudible|unintelligible|noise|background noise|music|laughter|laughs|silence|crosstalk|cough|breath|beep|static|unk|웃음|잡음|소음|침묵|음악|기침)\s*[\])>]'
+      flags: i
+    # - name: srt_index_lines        # only for raw .srt dumps: a line that is just a number
+    #   pattern: '^\s*\d+\s*$'
+
+  speaker_labels:
+    mode: neutralize              # keep | neutralize (S1, S2, ... per conversation) | remove
+    apply_to_free_text: false     # also rewrite "Name: ..." at line starts in plain-text transcripts
+    # free_text_pattern: '^(\s*)([^\n:：]{1,24}?)\s*[:：][ \t]*'
+
+  redaction:
+    enabled: true
+    placeholder_format: "[{label}]"
+    types:
+      email: true
+      url: false                  # scam URLs can be informative; enable if they identify people
+      upi_id: true
+      kr_rrn: true                # 주민등록번호
+      card: true                  # 13-19 digits that pass the Luhn check
+      aadhaar: true
+      phone_kr: true
+      phone_in: true
+      pan: true
+      ifsc: false                 # bank branch codes are not personal; enable if you prefer
+      bank_account: false         # any 9-18 digit run - also hits case/FIR numbers, so off by default
+    custom_patterns: []
+    # - {name: case_number, label: CASE_NUMBER, pattern: 'FIR\s*No\.?\s*\d+', flags: i}
+
+  dedup:
+    exact: true
+    near_duplicate:
+      enabled: false              # MinHash over character 5-grams; useful for templated synthetic data
+      threshold: 0.9
+      num_perm: 128
+      shingle_size: 5
+
+# Conversations that must never be seen during DAPT - typically your downstream TEST set.
+# compare_models.py downstream-split writes both files below.
+exclusions:
+  # Added 2026-10-21: the fixed downstream test set (340 conversations), so DAPT never
+  # sees test text. The first DAPT run (2026-10-20) was done BEFORE this was set, which
+  # leaked the test set into pretraining - that run is being redone from scratch.
+  conversation_id_files: [data/downstream/test_conversation_ids.txt]
+  text_files: [data/downstream/test.jsonl]
+  text_field: text
+  conversation_id_field: conversation_id
+
+split:
+  validation_ratio: 0.1
+  test_ratio: 0.1
+  group_by: conversation_id       # or a metadata field such as recording_id / call_id
+  group_namespace: source         # ids are unique per source (use `category` to merge across sources)
+  min_eval_groups_per_category: 1
+  # Was [synthetic] (keeps synthetic data out of validation/test as a real-data-only
+  # safety rail). Set to [] by decision (PROJECT_LOG.md, 2026-10-20): our only Hinglish
+  # data is synthetic, so that rail left the "hinglish" category with zero eval data,
+  # which is what made the hinglish_only DAPT experiment hard-fail (no validation chunks
+  # to select a checkpoint on). Conversation-id/group leakage checks still apply - this
+  # only removes the synthetic-vs-real exclusion, not the leakage protection.
+  train_only_source_types: []
+
+# -----------------------------------------------------------------------------
+experiments:
+  korean_only:
+    categories: [korean_scam, korean_normal]
+  hinglish_only:
+    categories: [hinglish]
+  mixed:
+    categories: [korean_scam, korean_normal, hinglish]
+
+# How much each category contributes to the training tokens (see README, "Source balancing").
+sampling:
+  strategy: temperature           # proportional | balanced | temperature | custom
+  alpha: 0.5                      # temperature only: 1.0 = proportional, 0.0 = balanced
+  custom_weights:                 # custom only (relative weights, normalised automatically)
+    korean_scam: 1.0
+    korean_normal: 1.0
+    hinglish: 2.0
+  total_train_tokens: null        # tokens per pass; null = natural size of the chosen categories
+  max_upsample_factor: 10         # cap on repeating a small category within one pass
+
+tokenization:
+  max_seq_length: 128             # shrunk from 256: 8GB laptop GPU, not a 16GB T4 - raise once
+                                   # a smoke test proves headroom (see training.* below)
+  num_proc: 4                     # 24 CPU threads available; small win for tokenizer.map
+
+# -----------------------------------------------------------------------------
+training:
+  run_name: null                  # null = experiment name; checkpoints in outputs/runs/<run_name>/
+  final_model_dir: outputs/xlm-roberta-dapt/{experiment}
+  mlm_probability: 0.15
+  num_train_epochs: 3             # = independent re-sampled passes over the mixture
+  max_steps: -1                   # > 0 overrides epochs
+  per_device_train_batch_size: 2   # shrunk from 4: 8GB VRAM (6.6GB free), not a 16GB T4
+  per_device_eval_batch_size: 4    # shrunk from 8, same reason
+  gradient_accumulation_steps: 16 # effective batch = 2 x 16 = 32 sequences (unchanged)
+  learning_rate: 5.0e-5
+  warmup_ratio: 0.06
+  weight_decay: 0.01
+  adam_beta1: 0.9
+  adam_beta2: 0.98
+  adam_epsilon: 1.0e-6
+  max_grad_norm: 1.0
+  lr_scheduler_type: linear
+  mixed_precision: auto           # auto: bf16 on Ampere+, fp16 on T4/V100, off on CPU
+  gradient_checkpointing: true    # turned on: trades ~25-30% extra compute for VRAM headroom
+  eval_steps: 200                 # checkpoints are saved at the same steps
+  logging_steps: 25
+  save_total_limit: 2             # each checkpoint with optimizer state is ~3.3 GB
+  early_stopping_patience: 3      # evaluations without improvement; 0 disables early stopping
+  early_stopping_threshold: 0.0
+  eval_mix: balanced              # balanced | natural  (validation mix used for model selection)
+  selection_categories: null      # null = the experiment's categories; e.g. [hinglish]
+  evaluate_before_training: true  # logs the original model's validation loss as a baseline
+  dataloader_num_workers: 2
+  group_by_length: true           # batch similar lengths together to reduce padding
+  report_to: none                 # none | tensorboard | wandb
+  full_determinism: false         # bit-exact reruns, slower
+  auto_find_batch_size: false     # halve the batch automatically on OOM (changes the effective batch)
+
+smoke_test:                       # train_dapt.py --smoke_test
+  max_train_chunks: 64
+  max_eval_chunks: 32
+  max_steps: 10
+  eval_steps: 5
+  max_seq_length: 128
+
+evaluation:
+  batch_size: 16
+  mask_seed: 1234                 # identical masked positions for every model compared
+  mlm_probability: 0.15
+  max_seq_length: null            # null = tokenization.max_seq_length
+  pll:                            # pseudo-log-likelihood (Salazar et al. 2020), optional, slow
+    enabled: false
+    max_sequences_per_category: 20
+    max_seq_length: 128
+    batch_size: 64
+
+comparison:
+  models:                         # first entry is the reference for the deltas
+    original: FacebookAI/xlm-roberta-base
+    dapt_mixed: outputs/xlm-roberta-dapt/mixed
+    dapt_korean_only: outputs/xlm-roberta-dapt/korean_only
+    dapt_hinglish_only: outputs/xlm-roberta-dapt/hinglish_only
+
+# -----------------------------------------------------------------------------
+# Supervised evaluation (compare_models.py downstream-split / downstream)
+# -----------------------------------------------------------------------------
+downstream:
+  sources:                        # labelled conversations; same schema as `sources`
+    # No real labelled Hinglish source: synthetic is the only Hinglish data there is, by
+    # decision (see PROJECT_LOG.md, 2026-10-20). Downstream metrics evaluate on synthetic
+    # conversations until real labelled calls exist.
+    - name: hinglish_labelled_synthetic
+      category: hinglish_labelled
+      paths: [data/labelled/hinglish/synthetic]
+      required: true                # this is now the only Hinglish source there is
+      language: hi-en
+      source_type: synthetic
+      text_field: text
+      conversation_id_field: conversation_id
+      turns_field: turns
+      turn_text_field: text
+      turn_speaker_field: speaker
+  label_field: label
+  positive_labels: ["1", scam, fraud, vishing, digital_arrest, "true", "yes"]
+  negative_labels: ["0", normal, legit, legitimate, benign, "false", "no"]
+  split_dir: data/downstream
+  validation_ratio: 0.15
+  test_ratio: 0.25
+  # Same change as split.train_only_source_types above, same reason: no real Hinglish
+  # data exists, so downstream validation/test now draw from the synthetic corpus too.
+  train_only_source_types: []
+  min_test_conversations_per_class: 5
+  models:                         # the 3 DAPT variants trained 2026-10-20, plus the baseline
+    original: FacebookAI/xlm-roberta-base
+    dapt_mixed: outputs/xlm-roberta-dapt/mixed
+    dapt_korean_only: outputs/xlm-roberta-dapt/korean_only
+    dapt_hinglish_only: outputs/xlm-roberta-dapt/hinglish_only
+  seeds: [13, 42, 87]
+  max_seq_length: 128              # shrunk from 256: matches what the encoder was actually
+                                   # DAPT-adapted on (we trained DAPT at 128, not the default 256)
+  window_overlap: 32              # shrunk from 64, same 25% ratio as before, scaled to 128
+  aggregation: mean               # mean | max of chunk probabilities per conversation
+  class_balance: none             # none | oversample (repeat minority-class training chunks)
+  learning_rate: 2.0e-5
+  num_train_epochs: 5
+  per_device_train_batch_size: 2   # shrunk from 8: 8GB laptop GPU, not the toolkit's 16GB T4
+  per_device_eval_batch_size: 4    # shrunk from 16, same reason
+  gradient_accumulation_steps: 8  # effective batch = 2 x 8 = 16, unchanged from the original 8 x 2
+  gradient_checkpointing: true    # this path has no frozen layers at all; needed on 8GB
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  mixed_precision: auto
+  bootstrap_samples: 1000
+  output_dir: outputs/downstream
+  keep_checkpoints: false
+
+# -----------------------------------------------------------------------------
+# XLM-R + GRU multi-task scam detector (train_classifier.py)
+# Not part of the original dapt-xlmr toolkit - written for this project. Chunk encoder
+# (DAPT XLM-R) -> GRU over a call's turns in order -> two heads: call-level scam
+# probability (BCEWithLogits, reported as a percentage) and per-turn tactic multi-label
+# classification (authority/fear/urgency/threat/isolation/financial_coercion, also
+# BCEWithLogits - a turn can show several tactics at once, or none, like victim turns).
+# The downstream comparison (2026-10-21) found no DAPT variant statistically beats plain
+# XLM-R on the simple binary probe; dapt_mixed was chosen anyway as the encoder here
+# because it saw both languages during adaptation, which is unaffected by that result.
+# -----------------------------------------------------------------------------
+classifier:
+  encoder_path: outputs/xlm-roberta-dapt/mixed
+  labelled_source: data/labelled/hinglish/synthetic/synthetic_conversations_labelled.jsonl
+  split_dir: data/downstream        # reuse the fixed, leakage-safe conversation split
+  tactic_labels: [authority, fear, urgency, threat, isolation, financial_coercion]
+  max_seq_length: 128               # matches what the encoder was DAPT-adapted on
+  max_turns: 20                     # corpus max is 16; headroom for future data
+  gru_hidden: 256
+  bidirectional: false              # unidirectional: usable call-in-progress, no look-ahead
+  dropout: 0.1
+  tactic_loss_weight: 1.0
+  encoder_lr: 2.0e-5                 # pretrained encoder: small LR
+  head_lr: 1.0e-3                    # fresh GRU + heads: larger LR
+  weight_decay: 0.01
+  batch_size: 1                     # conversations per step; each has up to max_turns chunks, so
+                                     # this already means ~9-16 sequences through the encoder.
+                                     # Was doubled to 2 for speed on 2026-10-21 based on an isolated
+                                     # single-conversation stress test (2.28GB peak) that did NOT
+                                     # actually test batch_size=2 - a real batch_size=2 run OOM'd on
+                                     # 2026-10-22 hitting two near-max-turns conversations together
+                                     # (6.25GiB already in use before the failed 734MiB allocation).
+                                     # The original 3-seed run got lucky across all 30 epoch-seeds
+                                     # and never hit that combination; reverted to the proven-safe
+                                     # batch_size=1 instead of re-measuring batch_size=2 properly.
+  gradient_accumulation_steps: 16   # effective batch = 16 conversations (unchanged)
+  epochs: 10
+  warmup_ratio: 0.1
+  early_stopping_patience: 3
+  selection_metric: combined        # combined = mean(scam F1, tactic macro-F1) on validation
+  seeds: [13, 42, 87]
+  gradient_checkpointing: true
+  mixed_precision: auto
+  bootstrap_samples: 1000
+  output_dir: outputs/classifier
+  keep_checkpoints: false
+
+# -----------------------------------------------------------------------------
+# Risk scoring (risk_score.py) - the methodology's final stage: turn the classifier's
+# scam probability and per-turn tactic outputs into one 0-100 risk score + a Low/Medium/
+# High band for a call. No fixed formula was specified for this project, so the weights
+# below are a reasonable, documented default (see PROJECT_LOG.md), not a derived result -
+# they are meant to be tuned once real-world calls are available to validate against.
+# -----------------------------------------------------------------------------
+risk_scoring:
+  checkpoint: outputs/classifier/runs/seed42/best_model.pt   # kept from one full run, see log
+  # How much each signal contributes to the final score. scam_probability dominates
+  # (it is the actual scam/not-scam decision); tactic_presence and escalation refine it.
+  weights:
+    scam_probability: 0.6
+    tactic_presence: 0.3
+    escalation: 0.1
+  # Relative severity of each tactic when averaging "tactic presence" into one number -
+  # authority alone is the weakest signal (legitimate officials use it too, see the
+  # legitimate_authority_hard_negative class), threat/financial_coercion/isolation are the
+  # strongest standalone signals of an actual digital-arrest attempt.
+  tactic_severity:
+    authority: 0.5
+    fear: 0.7
+    urgency: 0.6
+    threat: 1.0
+    isolation: 0.9
+    financial_coercion: 1.0
+  # score < low_max -> Low; low_max <= score < medium_max -> Medium; >= medium_max -> High
+  bands:
+    low_max: 30
+    medium_max: 70
+  output_dir: outputs/risk_scoring

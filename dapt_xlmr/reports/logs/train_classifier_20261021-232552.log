@@ -1,0 +1,9 @@
+2026-10-21 23:25:52 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/train_classifier_20261021-232552.log
+2026-10-21 23:25:54 | INFO    | dapt.mlm | torch 2.11.0+cu128 | transformers 5.17.0 | datasets 4.8.5 | CUDA 12.8 | GPU NVIDIA GeForce RTX 5060 Laptop GPU
+2026-10-21 23:25:57 | INFO    | dapt.classifier | conversations: train=815 validation=204 test=340
+2026-10-21 23:25:57 | INFO    | dapt.classifier | --smoke_test: 1 seed, 1 epoch, 8 conversations per split
+2026-10-21 23:25:57 | INFO    | dapt.classifier | === seed 13 ===
+2026-10-21 23:25:59 | INFO    | dapt.classifier | seed 13 epoch 1/1: loss=1.4088 scam_loss=0.6975 tactic_loss=0.7114
+2026-10-21 23:25:59 | INFO    | dapt.classifier | seed 13 epoch 1/1: val scam_f1=0.000 val_tactic_macro_f1=0.109 combined=0.055
+2026-10-21 23:26:00 | INFO    | dapt.classifier | seed 13 test: scam F1@0.5=0.000 tactic macro-F1=0.091
+2026-10-21 23:26:00 | INFO    | dapt.classifier | Report: /home/faiqua/digital_arrest_project/dapt_xlmr/reports/classifier/classifier_report.md

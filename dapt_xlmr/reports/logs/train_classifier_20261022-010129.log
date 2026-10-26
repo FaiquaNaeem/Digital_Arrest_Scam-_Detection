@@ -1,0 +1,6 @@
+2026-10-22 01:01:29 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/train_classifier_20261022-010129.log
+2026-10-22 01:01:31 | INFO    | dapt.mlm | torch 2.11.0+cu128 | transformers 5.17.0 | datasets 4.8.5 | CUDA 12.8 | GPU NVIDIA GeForce RTX 5060 Laptop GPU
+2026-10-22 01:01:34 | INFO    | dapt.classifier | conversations: train=815 validation=204 test=340
+2026-10-22 01:01:34 | INFO    | dapt.classifier | === seed 42 ===
+2026-10-22 01:02:37 | INFO    | dapt.classifier | seed 42 epoch 1/10: loss=0.9606 scam_loss=0.5649 tactic_loss=0.3957
+2026-10-22 01:02:40 | INFO    | dapt.classifier | seed 42 epoch 1/10: val scam_f1=0.934 val_tactic_macro_f1=0.051 combined=0.492

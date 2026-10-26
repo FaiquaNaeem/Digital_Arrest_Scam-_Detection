@@ -1,0 +1,3 @@
+2026-10-20 16:00:22 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/prepare_dataset_20261020-160022.log
+2026-10-20 16:00:22 | INFO    | dapt.prepare | Loaded 4283 processed documents from /home/faiqua/digital_arrest_project/dapt_xlmr/data/processed/documents.jsonl
+2026-10-20 16:00:22 | INFO    | dapt.prepare | Splits written to /home/faiqua/digital_arrest_project/dapt_xlmr/data/prepared (fingerprint bc82d8555b0034a0): {'train': 3427, 'validation': 428, 'test': 428}

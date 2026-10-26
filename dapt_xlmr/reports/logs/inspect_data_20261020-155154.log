@@ -1,0 +1,23 @@
+2026-10-20 15:51:54 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/inspect_data_20261020-155154.log
+2026-10-20 15:51:56 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-20 15:51:57 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Fconfig.json=&etag=%221960141250d189366dfb76630ba794a9c104ec07%22 "HTTP/1.1 200 OK"
+2026-10-20 15:51:57 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-20 15:51:57 | WARNING | huggingface_hub.utils._http | Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-10-20 15:51:57 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/tokenizer_config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%2234ddbd64a4cd3f2d9d8a9120d3662d0bf91baead%22 "HTTP/1.1 200 OK"
+2026-10-20 15:51:57 | INFO    | httpx | HTTP Request: GET https://huggingface.co/api/models/FacebookAI/xlm-roberta-base/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-20 15:51:58 | INFO    | httpx | HTTP Request: GET https://huggingface.co/api/models/FacebookAI/xlm-roberta-base/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-20 15:51:59 | INFO    | httpx | HTTP Request: GET https://huggingface.co/api/models/FacebookAI/xlm-roberta-base "HTTP/1.1 200 OK"
+2026-10-20 15:51:59 | INFO    | dapt.inspect | Inspecting source korean_scam ...
+2026-10-20 15:51:59 | INFO    | dapt.inspect | Inspecting source korean_normal ...
+2026-10-20 15:52:02 | INFO    | dapt.inspect | Inspecting source hinglish_real ...
+2026-10-20 15:52:02 | INFO    | dapt.inspect | Inspecting source hinglish_synthetic ...
+2026-10-20 15:52:02 | WARNING | dapt.inspect | korean_scam: label fields {'label': 14757} present - they will be excluded from DAPT text and metadata.
+2026-10-20 15:52:02 | WARNING | dapt.inspect | korean_normal: label fields {'label': 96238} present - they will be excluded from DAPT text and metadata.
+2026-10-20 15:52:02 | WARNING | dapt.inspect | hinglish_real: missing paths ['data/raw/hinglish/real']
+2026-10-20 15:52:02 | WARNING | dapt.inspect | hinglish_synthetic: label fields {'class': 1359} present - they will be excluded from DAPT text and metadata.
+2026-10-20 15:52:02 | WARNING | dapt.inspect | hinglish_synthetic: speaker labels that reveal the class: ['[speaker field] victim']. Use preprocessing.speaker_labels.mode=neutralize (and apply_to_free_text for plain-text transcripts).
+2026-10-20 15:52:02 | INFO    | dapt.inspect | korean_scam            korean_scam    files=1    records=14757   text-issues=0
+2026-10-20 15:52:02 | INFO    | dapt.inspect | korean_normal          korean_normal  files=1    records=96238   text-issues=0
+2026-10-20 15:52:02 | INFO    | dapt.inspect | hinglish_real          hinglish       files=0    records=0       text-issues=0
+2026-10-20 15:52:02 | INFO    | dapt.inspect | hinglish_synthetic     hinglish       files=1    records=1359    text-issues=0
+2026-10-20 15:52:02 | INFO    | dapt.inspect | Report: /home/faiqua/digital_arrest_project/dapt_xlmr/reports/inspection_report.md

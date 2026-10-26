@@ -1,0 +1,166 @@
+{
+  "created": "2026-10-20T10:30:22+00:00",
+  "documents_kept": 4283,
+  "per_source": {
+    "korean_scam": {
+      "files": 1,
+      "records_read": 14757,
+      "documents_assembled": 692,
+      "documents_kept_after_cleaning": 692
+    },
+    "korean_normal": {
+      "files": 1,
+      "records_read": 96238,
+      "documents_assembled": 2232,
+      "documents_kept_after_cleaning": 2232
+    },
+    "hinglish_synthetic": {
+      "files": 1,
+      "records_read": 1359,
+      "documents_assembled": 1359,
+      "documents_kept_after_cleaning": 1359
+    }
+  },
+  "per_category": {
+    "korean_scam": {
+      "documents": 692,
+      "chars": 992094,
+      "languages": {
+        "ko": 692
+      },
+      "source_types": {
+        "real": 692
+      },
+      "records": 14757
+    },
+    "korean_normal": {
+      "documents": 2232,
+      "chars": 11539692,
+      "languages": {
+        "ko": 2232
+      },
+      "source_types": {
+        "real": 2232
+      },
+      "records": 96238
+    },
+    "hinglish": {
+      "documents": 1359,
+      "chars": 2085587,
+      "languages": {
+        "hi-en": 1359
+      },
+      "source_types": {
+        "synthetic": 1359
+      },
+      "records": 1359
+    }
+  },
+  "removed_by_category_and_reason": {},
+  "exact_duplicates_removed": {},
+  "cross_category_exact_duplicates": {},
+  "near_duplicates_removed": "disabled",
+  "cleaning_counts": {
+    "korean_scam": {
+      "zero_width_chars_removed": 0,
+      "control_chars_removed": 0,
+      "artifact:srt_vtt_timing": 0,
+      "artifact:webvtt_header": 0,
+      "artifact:bracketed_timestamp": 0,
+      "artifact:noise_tags": 0,
+      "redacted:phone_kr": 16,
+      "redacted:card": 1,
+      "redacted:aadhaar": 2
+    },
+    "korean_normal": {
+      "zero_width_chars_removed": 0,
+      "control_chars_removed": 0,
+      "artifact:srt_vtt_timing": 0,
+      "artifact:webvtt_header": 0,
+      "artifact:bracketed_timestamp": 0,
+      "artifact:noise_tags": 0
+    },
+    "hinglish": {
+      "zero_width_chars_removed": 0,
+      "control_chars_removed": 0,
+      "artifact:srt_vtt_timing": 0,
+      "artifact:webvtt_header": 0,
+      "artifact:bracketed_timestamp": 0,
+      "artifact:noise_tags": 0,
+      "redacted:upi_id": 532,
+      "redacted:aadhaar": 70,
+      "redacted:phone_in": 40,
+      "redacted:email": 4,
+      "redacted:phone_kr": 2,
+      "redacted:pan": 2
+    }
+  },
+  "label_fields_found": {
+    "korean_scam": {
+      "label": 14757
+    },
+    "korean_normal": {
+      "label": 96238
+    },
+    "hinglish": {
+      "class": 1359
+    }
+  },
+  "label_fields_policy": "excluded from DAPT documents (never part of text or metadata)",
+  "assembly_notes": {
+    "korean_scam:multi_record_conversations": 674,
+    "korean_normal:multi_record_conversations": 2232
+  },
+  "file_errors": [],
+  "speaker_label_mode": "neutralize",
+  "redaction": {
+    "enabled": true,
+    "detectors": [
+      "email",
+      "upi_id",
+      "kr_rrn",
+      "card",
+      "phone_kr",
+      "phone_in",
+      "aadhaar",
+      "pan"
+    ],
+    "replacements_by_category": {
+      "korean_scam": {
+        "phone_kr": 16,
+        "card": 1,
+        "aadhaar": 2
+      },
+      "korean_normal": {},
+      "hinglish": {
+        "upi_id": 532,
+        "aadhaar": 70,
+        "phone_in": 40,
+        "email": 4,
+        "phone_kr": 2,
+        "pan": 2
+      }
+    },
+    "documents_affected_by_category": {
+      "korean_scam": {
+        "phone_kr": 13,
+        "card": 1,
+        "aadhaar": 2
+      },
+      "hinglish": {
+        "upi_id": 444,
+        "aadhaar": 67,
+        "phone_in": 33,
+        "email": 4,
+        "phone_kr": 2,
+        "pan": 2
+      }
+    },
+    "note": "Counts only; redacted values are never written anywhere. Regex redaction does not detect names, addresses or spoken-out numbers."
+  },
+  "warnings": [
+    "korean_scam: label fields ['label'] were present and excluded from DAPT data.",
+    "korean_normal: label fields ['label'] were present and excluded from DAPT data.",
+    "hinglish: label fields ['class'] were present and excluded from DAPT data."
+  ]
+}

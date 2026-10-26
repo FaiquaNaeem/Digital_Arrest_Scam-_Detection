@@ -1,0 +1,42 @@
+2026-10-21 14:48:24 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/compare_models_downstream_20261021-144824.log
+2026-10-21 14:48:26 | INFO    | dapt.mlm | torch 2.11.0+cu128 | transformers 5.17.0 | datasets 4.8.5 | CUDA 12.8 | GPU NVIDIA GeForce RTX 5060 Laptop GPU
+2026-10-21 14:48:43 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-21 14:48:48 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Fconfig.json=&etag=%221960141250d189366dfb76630ba794a9c104ec07%22 "HTTP/1.1 200 OK"
+2026-10-21 14:49:19 | INFO    | httpx | HTTP Request: GET https://huggingface.co/api/models/FacebookAI/xlm-roberta-base/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-21 14:49:24 | INFO    | httpx | HTTP Request: GET https://huggingface.co/api/models/FacebookAI/xlm-roberta-base "HTTP/1.1 200 OK"
+2026-10-21 14:49:25 | INFO    | dapt.compare | original: windows train=3881 validation=969 test=1703
+2026-10-21 14:49:25 | INFO    | dapt.compare | Fine-tuning original (FacebookAI/xlm-roberta-base) with seed 13 ...
+2026-10-21 14:49:25 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-21 14:49:25 | WARNING | huggingface_hub.utils._http | Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-10-21 14:49:25 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Fconfig.json=&etag=%221960141250d189366dfb76630ba794a9c104ec07%22 "HTTP/1.1 200 OK"
+2026-10-21 14:57:04 | INFO    | dapt.compare |   seed 13: F1 0.957 | P 0.918 | R 1.000 | PR-AUC 0.999
+2026-10-21 14:57:04 | INFO    | dapt.compare | Fine-tuning original (FacebookAI/xlm-roberta-base) with seed 42 ...
+2026-10-21 14:57:04 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-21 14:57:04 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Fconfig.json=&etag=%221960141250d189366dfb76630ba794a9c104ec07%22 "HTTP/1.1 200 OK"
+2026-10-21 15:05:25 | INFO    | dapt.compare |   seed 42: F1 0.979 | P 0.982 | R 0.976 | PR-AUC 0.998
+2026-10-21 15:05:25 | INFO    | dapt.compare | Fine-tuning original (FacebookAI/xlm-roberta-base) with seed 87 ...
+2026-10-21 15:05:25 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/FacebookAI/xlm-roberta-base/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-10-21 15:05:25 | INFO    | httpx | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/FacebookAI/xlm-roberta-base/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json?%2FFacebookAI%2Fxlm-roberta-base%2Fresolve%2Fmain%2Fconfig.json=&etag=%221960141250d189366dfb76630ba794a9c104ec07%22 "HTTP/1.1 200 OK"
+2026-10-21 15:13:59 | INFO    | dapt.compare |   seed 87: F1 0.976 | P 0.971 | R 0.982 | PR-AUC 0.997
+2026-10-21 15:14:00 | INFO    | dapt.compare | dapt_mixed: windows train=3881 validation=969 test=1703
+2026-10-21 15:14:00 | INFO    | dapt.compare | Fine-tuning dapt_mixed (outputs/xlm-roberta-dapt/mixed) with seed 13 ...
+2026-10-21 15:22:28 | INFO    | dapt.compare |   seed 13: F1 0.963 | P 0.928 | R 1.000 | PR-AUC 0.999
+2026-10-21 15:22:28 | INFO    | dapt.compare | Fine-tuning dapt_mixed (outputs/xlm-roberta-dapt/mixed) with seed 42 ...
+2026-10-21 21:52:38 | INFO    | dapt.compare |   seed 42: F1 0.974 | P 0.949 | R 1.000 | PR-AUC 0.999
+2026-10-21 21:52:38 | INFO    | dapt.compare | Fine-tuning dapt_mixed (outputs/xlm-roberta-dapt/mixed) with seed 87 ...
+2026-10-21 22:00:40 | INFO    | dapt.compare |   seed 87: F1 0.991 | P 0.988 | R 0.994 | PR-AUC 1.000
+2026-10-21 22:00:42 | INFO    | dapt.compare | dapt_korean_only: windows train=3881 validation=969 test=1703
+2026-10-21 22:00:42 | INFO    | dapt.compare | Fine-tuning dapt_korean_only (outputs/xlm-roberta-dapt/korean_only) with seed 13 ...
+2026-10-21 22:08:08 | INFO    | dapt.compare |   seed 13: F1 0.963 | P 0.933 | R 0.994 | PR-AUC 0.999
+2026-10-21 22:08:08 | INFO    | dapt.compare | Fine-tuning dapt_korean_only (outputs/xlm-roberta-dapt/korean_only) with seed 42 ...
+2026-10-21 22:15:33 | INFO    | dapt.compare |   seed 42: F1 0.985 | P 0.977 | R 0.994 | PR-AUC 0.998
+2026-10-21 22:15:33 | INFO    | dapt.compare | Fine-tuning dapt_korean_only (outputs/xlm-roberta-dapt/korean_only) with seed 87 ...
+2026-10-21 22:22:52 | INFO    | dapt.compare |   seed 87: F1 0.985 | P 0.977 | R 0.994 | PR-AUC 1.000
+2026-10-21 22:22:53 | INFO    | dapt.compare | dapt_hinglish_only: windows train=3881 validation=969 test=1703
+2026-10-21 22:22:53 | INFO    | dapt.compare | Fine-tuning dapt_hinglish_only (outputs/xlm-roberta-dapt/hinglish_only) with seed 13 ...
+2026-10-21 22:30:23 | INFO    | dapt.compare |   seed 13: F1 0.968 | P 0.944 | R 0.994 | PR-AUC 0.999
+2026-10-21 22:30:23 | INFO    | dapt.compare | Fine-tuning dapt_hinglish_only (outputs/xlm-roberta-dapt/hinglish_only) with seed 42 ...
+2026-10-21 22:37:42 | INFO    | dapt.compare |   seed 42: F1 0.982 | P 0.988 | R 0.976 | PR-AUC 0.999
+2026-10-21 22:37:42 | INFO    | dapt.compare | Fine-tuning dapt_hinglish_only (outputs/xlm-roberta-dapt/hinglish_only) with seed 87 ...
+2026-10-21 22:45:11 | INFO    | dapt.compare |   seed 87: F1 0.960 | P 0.928 | R 0.994 | PR-AUC 0.997
+2026-10-21 22:45:44 | INFO    | dapt.compare | Report: /home/faiqua/digital_arrest_project/dapt_xlmr/reports/downstream/downstream_comparison.md

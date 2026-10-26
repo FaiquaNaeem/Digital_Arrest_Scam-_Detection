@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pid
+.claude/
+
+# Large raw intermediate data (not suitable for git)
+data/korccvi_pseudo_turns.csv
+data/korccvi_translated_progress.csv
+dapt_xlmr/data/
+
+# Model checkpoints / training artifacts (tens of GB, not suitable for git)
+dapt_xlmr/outputs/
+dapt_xlmr/archive_leaky_dapt_run_20261020/

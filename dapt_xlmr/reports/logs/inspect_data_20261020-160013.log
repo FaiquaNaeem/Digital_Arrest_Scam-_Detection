@@ -1,0 +1,12 @@
+2026-10-20 16:00:13 | INFO    | dapt | Logging to /home/faiqua/digital_arrest_project/dapt_xlmr/reports/logs/inspect_data_20261020-160013.log
+2026-10-20 16:00:13 | INFO    | dapt.inspect | Inspecting source korean_scam ...
+2026-10-20 16:00:14 | INFO    | dapt.inspect | Inspecting source korean_normal ...
+2026-10-20 16:00:16 | INFO    | dapt.inspect | Inspecting source hinglish_synthetic ...
+2026-10-20 16:00:16 | WARNING | dapt.inspect | korean_scam: label fields {'label': 14757} present - they will be excluded from DAPT text and metadata.
+2026-10-20 16:00:16 | WARNING | dapt.inspect | korean_normal: label fields {'label': 96238} present - they will be excluded from DAPT text and metadata.
+2026-10-20 16:00:16 | WARNING | dapt.inspect | hinglish_synthetic: label fields {'class': 1359} present - they will be excluded from DAPT text and metadata.
+2026-10-20 16:00:16 | WARNING | dapt.inspect | hinglish_synthetic: speaker labels that reveal the class: ['[speaker field] victim']. Use preprocessing.speaker_labels.mode=neutralize (and apply_to_free_text for plain-text transcripts).
+2026-10-20 16:00:16 | INFO    | dapt.inspect | korean_scam            korean_scam    files=1    records=14757   text-issues=0
+2026-10-20 16:00:16 | INFO    | dapt.inspect | korean_normal          korean_normal  files=1    records=96238   text-issues=0
+2026-10-20 16:00:16 | INFO    | dapt.inspect | hinglish_synthetic     hinglish       files=1    records=1359    text-issues=0
+2026-10-20 16:00:16 | INFO    | dapt.inspect | Report: /home/faiqua/digital_arrest_project/dapt_xlmr/reports/inspection_report.md
