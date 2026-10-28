@@ -14,7 +14,8 @@
 </div>
 
 <p align="center">
-  <img width="780" alt="Project pipeline" src="https://github.com/user-attachments/assets/3d65b22a-2b74-4bc1-9093-7628237da17e" />
+  <img width="1275" height="2838" alt="Digital Arrest Scam Detection – Project Pipeline" src="https://github.com/user-attachments/assets/3b1b56c3-4c47-479d-8e97-eaa873efd60d" />
+
 </p>
 
 ---
@@ -154,15 +155,6 @@ Place the Korean data under `dapt_xlmr/data/raw/korean/{scam,normal}/` and the s
 - [ ] Calibrate probabilities and risk weights
 - [ ] Score live calls turn by turn
 
-## 📚 References
 
-- **KorCCVi**: Boussougou, Hamandawana & Park, IEEE DataPort, 2024, [doi:10.21227/163c-0542](https://doi.org/10.21227/163c-0542)
-- **XLM-R**: Conneau et al., ACL 2020 · **DAPT**: Gururangan et al., ACL 2020
-
-<div align="center">
-
-Made at **KIET Group of Institutions, Ghaziabad** 🎓
-
-*A risk score is an estimate, not proof of a crime.*
 
 </div>
