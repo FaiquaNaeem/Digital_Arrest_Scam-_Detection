@@ -14,7 +14,7 @@
 </div>
 
 <p align="center">
-  <img width="1275" height="2838" alt="Digital Arrest Scam Detection – Project Pipeline" src="https://github.com/user-attachments/assets/3b1b56c3-4c47-479d-8e97-eaa873efd60d" />
+  <img width="1175" height="2038" alt="Digital Arrest Scam Detection – Project Pipeline" src="https://github.com/user-attachments/assets/3b1b56c3-4c47-479d-8e97-eaa873efd60d" />
 
 </p>
 
